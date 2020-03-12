@@ -11,14 +11,14 @@ class WalletTransactionTest {
 
     @Test
     public void should_throw_exception_when_buyer_id_is_null() {
-        WalletTransaction walletTransaction = new WalletTransaction("1", null, 1L, 123L, "11");
+        WalletTransaction walletTransaction = new WalletTransaction("1", null, 1L);
         Exception exception = assertThrows(InvalidTransactionException.class, walletTransaction::execute);
         assertEquals("This is an invalid transaction",exception.getMessage());
     }
 
     @Test
     public void should_throw_a_exception_when_sell_id_is_null() {
-        WalletTransaction walletTransaction = new WalletTransaction("1", 1L, null, 123L, "11");
+        WalletTransaction walletTransaction = new WalletTransaction("1", 1L, null);
         Exception exception = assertThrows(InvalidTransactionException.class, walletTransaction::execute);
         assertEquals("This is an invalid transaction",exception.getMessage());
     }
