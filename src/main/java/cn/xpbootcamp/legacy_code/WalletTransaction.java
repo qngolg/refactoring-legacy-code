@@ -18,7 +18,15 @@ public class WalletTransaction {
 
 
     public WalletTransaction(String preAssignedId, Long buyerId, Long sellerId, Double amount) {
+        buildId(preAssignedId);
         this.amount = amount;
+        this.buyerId = buyerId;
+        this.sellerId = sellerId;
+        this.status = STATUS.TO_BE_EXECUTED;
+        this.createdTimestamp = System.currentTimeMillis();
+    }
+
+    private void buildId(String preAssignedId) {
         if (preAssignedId != null && !preAssignedId.isEmpty()) {
             this.id = preAssignedId;
         } else {
@@ -27,10 +35,6 @@ public class WalletTransaction {
         if (!this.id.startsWith("t_")) {
             this.id = "t_" + preAssignedId;
         }
-        this.buyerId = buyerId;
-        this.sellerId = sellerId;
-        this.status = STATUS.TO_BE_EXECUTED;
-        this.createdTimestamp = System.currentTimeMillis();
     }
 
     public boolean execute() throws InvalidTransactionException {
