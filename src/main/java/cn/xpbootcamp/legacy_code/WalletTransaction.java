@@ -15,10 +15,10 @@ public class WalletTransaction {
     private Long createdTimestamp;
     private Double amount;
     private STATUS status;
-    private String walletTransactionId;
 
 
-    public WalletTransaction(String preAssignedId, Long buyerId, Long sellerId) {
+    public WalletTransaction(String preAssignedId, Long buyerId, Long sellerId, Double amount) {
+        this.amount = amount;
         if (preAssignedId != null && !preAssignedId.isEmpty()) {
             this.id = preAssignedId;
         } else {
@@ -56,7 +56,6 @@ public class WalletTransaction {
             WalletService walletService = new WalletServiceImpl();
             String walletTransactionId = walletService.moveMoney(id, buyerId, sellerId, amount);
             if (walletTransactionId != null) {
-                this.walletTransactionId = walletTransactionId;
                 this.status = STATUS.EXECUTED;
                 return true;
             } else {
