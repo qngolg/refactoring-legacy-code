@@ -18,23 +18,12 @@ public class WalletTransaction {
 
 
     public WalletTransaction(String preAssignedId, Long buyerId, Long sellerId, Double amount) {
-        buildId(preAssignedId);
+        generateId(preAssignedId);
         this.amount = amount;
         this.buyerId = buyerId;
         this.sellerId = sellerId;
         this.status = STATUS.TO_BE_EXECUTED;
         this.createdTimestamp = System.currentTimeMillis();
-    }
-
-    private void buildId(String preAssignedId) {
-        if (preAssignedId != null && !preAssignedId.isEmpty()) {
-            this.id = preAssignedId;
-        } else {
-            this.id = IdGenerator.generateTransactionId();
-        }
-        if (!this.id.startsWith("t_")) {
-            this.id = "t_" + preAssignedId;
-        }
     }
 
     public boolean execute() throws InvalidTransactionException {
@@ -70,6 +59,17 @@ public class WalletTransaction {
             if (isLocked) {
                 RedisDistributedLock.getSingletonInstance().unlock(id);
             }
+        }
+    }
+
+    private void generateId(String preAssignedId) {
+        if (preAssignedId != null && !preAssignedId.isEmpty()) {
+            this.id = preAssignedId;
+        } else {
+            this.id = IdGenerator.generateTransactionId();
+        }
+        if (!this.id.startsWith("t_")) {
+            this.id = "t_" + preAssignedId;
         }
     }
 
