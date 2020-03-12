@@ -22,4 +22,11 @@ class WalletTransactionTest {
         Exception exception = assertThrows(InvalidTransactionException.class, walletTransaction::execute);
         assertEquals("This is an invalid transaction", exception.getMessage());
     }
+
+    @Test
+    public void should_throw_a_exception_when_amount_less_then_0() {
+        WalletTransaction walletTransaction = new WalletTransaction("1", 1L, null, -1d);
+        Exception exception = assertThrows(InvalidTransactionException.class, walletTransaction::execute);
+        assertEquals("This is an invalid transaction", exception.getMessage());
+    }
 }
